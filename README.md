@@ -62,7 +62,7 @@ The Java Spring Boot backend follows a strict 4-layer architecture:
 ### 2. Clone & Run the Application
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com
+   git clone https://github.com/yhennei07/In-Dept-Pendent.git
    cd In-Dept-Pendent
    ```
 2. **Run the Spring Boot backend:**
