@@ -14,10 +14,11 @@ A web-based load and transaction ledger application built with **Java Spring Boo
 
 ## How to Run Locally
 
-### 1. Start the Database (XAMPP)
+### 1. Set Up the Database (XAMPP)
 1. Open the **XAMPP Control Panel** and click **Start** on **Apache** and **MySQL**.
-2. Open **phpMyAdmin** (`http://localhost/phpmyadmin`) and create a new database named **`talaan`** (matching `spring.datasource.url` in `src/main/resources/application.properties`).
-3. Ensure MySQL is running on port `3306` with the default username `root` and a blank password.
+2. Open **phpMyAdmin** (`http://localhost/phpmyadmin`) and create a new database named **`talaan_db`**.
+3. Select **`talaan_db`** on the left sidebar, click the **Import** tab at the top, choose **`talaan_db.sql`** from this repository, and click **Import** (or **Go**).
+4. Ensure MySQL is running on port `3306` with the default username `root` and a blank password (matching `src/main/resources/application.properties`).
 
 ### 2. Clone & Run the Application
 1. **Clone the repository:**
