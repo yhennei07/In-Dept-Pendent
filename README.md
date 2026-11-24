@@ -26,12 +26,18 @@
 
 ## Database Architecture (`talaan_db`)
 The MySQL relational schema consists of 6 normalized tables:
-1. **`users`** (`user_id`, `username`, `password_hash`, `role`, `created_at`) — Stores authenticated lender accounts.
-2. **`borrowers`** (`borrower_id`, `full_name`, `contact_number`, `address`, `barangay`, `is_archived`, `created_at`) — Stores borrower personal details and archive flag.
-3. **`loans`** (`loan_id`, `borrower_id`, `principal`, `interest_rate`, `total_amount`, `loan_date`, `due_date`, `payment_frequency`, `status`, `num_payments`, `is_archived`, `archived_at`) — Stores loan contracts and maturity dates.
-4. **`installments`** (`installment_id`, `loan_id`, `due_date`, `amount_due`, `amount_paid`, `status`) — Tracks individual scheduled due dates (`UNPAID`, `PARTIAL`, `PAID`, `VOID`).
-5. **`payments`** (`payment_id`, `loan_id`, `amount`, `payment_date`, `remarks`, `balance_after`) — Logs every payment transaction, payment method, and remaining balance.
-6. **`payment_allocations`** (`allocation_id`, `payment_id`, `installment_id`, `amount_allocated`, `created_at`) — Links each payment to the exact installment(s) it satisfied.
+1. **`users`** (`user_id`, `username`, `password_hash`, `role`, `created_at`) 
+    — Stores authenticated lender accounts.
+2. **`borrowers`** (`borrower_id`, `full_name`, `contact_number`, `address`, `barangay`, `is_archived`, `created_at`) 
+    — Stores borrower personal details and archive flag.
+3. **`loans`** (`loan_id`, `borrower_id`, `principal`, `interest_rate`, `total_amount`, `loan_date`, `due_date`, `payment_frequency`, `status`, `num_payments`, `is_archived`, `archived_at`) 
+    — Stores loan contracts and maturity dates.
+4. **`installments`** (`installment_id`, `loan_id`, `due_date`, `amount_due`, `amount_paid`, `status`) 
+    — Tracks individual scheduled due dates (`UNPAID`, `PARTIAL`, `PAID`, `VOID`).
+5. **`payments`** (`payment_id`, `loan_id`, `amount`, `payment_date`, `remarks`, `balance_after`) 
+    — Logs every payment transaction, payment method, and remaining balance.
+6. **`payment_allocations`** (`allocation_id`, `payment_id`, `installment_id`, `amount_allocated`, `created_at`) 
+    — Links each payment to the exact installment(s) it satisfied.
 
 ## Backend Software Architecture (`com.talaan.ledger`)
 The Java Spring Boot backend follows a strict 4-layer architecture:
