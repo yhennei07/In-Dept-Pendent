@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1c1633">
+  <meta name="description" content="In-Debt-Pendent Loan Ledger — Manage borrowers, loan terms, installment schedules, and payment records.">
+  <title>In-Debt-Pendent | Loan Ledger</title>
+  <script>
+    try {
+      if (localStorage.getItem("talaan-theme") === "light") {
+        document.documentElement.dataset.theme = "light";
+      }
+    } catch {}
+  </script>
+  <link rel="stylesheet" href="./fonts/fonts.css">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <main class="entry" id="entry">
+    <div class="entry-content">
+      <div class="sign-in">
+        <div class="entry-heading">
+          <div class="entry-brand" data-brand></div>
+          <button type="button" class="button outline compact theme-toggle" data-theme-toggle>Light mode</button>
+        </div>
+        <h1 id="sign-in-heading" tabindex="-1">Sign in to In-Debt-Pendent</h1>
+        <form id="sign-in-form" novalidate>
+          <div class="field">
+            <label for="username">Username</label>
+            <input id="username" name="username" placeholder="Enter username" aria-describedby="username-error" required autocomplete="off" autocapitalize="none" spellcheck="false">
+            <p class="field-error" id="username-error"></p>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <div class="password-input">
+              <input id="password" name="password" type="password" placeholder="Enter password" aria-describedby="password-error login-error" required autocomplete="off">
+              <button class="icon-button password-toggle" id="password-toggle" type="button" aria-label="Show password" aria-pressed="false"></button>
+            </div>
+            <p class="field-error" id="password-error"></p>
+          </div>
+          <p class="field-error login-error" id="login-error" role="alert"></p>
+          <button class="button primary sign-in-button" type="submit">Sign in</button>
+          <p class="auth-switch">New to In-Debt-Pendent? <button class="text-action" type="button" data-auth-mode="sign-up">Sign up</button></p>
+        </form>
+        <form id="sign-up-form" hidden novalidate>
+          <p class="sign-up-note">Create an account to access the In-Debt-Pendent Loan Ledger.</p>
+          <div class="field">
+            <label for="signup-username">Username</label>
+            <input id="signup-username" name="username" aria-describedby="signup-username-error" maxlength="32" required autocomplete="off" autocapitalize="none" spellcheck="false">
+            <p class="field-error" id="signup-username-error"></p>
+          </div>
+          <div class="field">
+            <label for="signup-password">Password</label>
+            <input id="signup-password" name="password" type="password" placeholder="At least 8 characters" aria-describedby="signup-password-error" minlength="8" maxlength="128" required autocomplete="off">
+            <p class="field-error" id="signup-password-error"></p>
+          </div>
+          <div class="field">
+            <label for="signup-confirm">Confirm password</label>
+            <input id="signup-confirm" name="confirm" type="password" aria-describedby="signup-confirm-error" maxlength="128" required autocomplete="off">
+            <p class="field-error" id="signup-confirm-error"></p>
+          </div>
+          <p class="field-error" id="signup-error" role="alert"></p>
+          <button class="button primary sign-in-button" type="submit">Create an account</button>
+          <p class="auth-switch">Already have an account? <button class="text-action" type="button" data-auth-mode="sign-in">Sign in</button></p>
+        </form>
+      </div>
+      <section class="entry-about" aria-labelledby="about-system">
+        <h2 id="about-system">About the system</h2>
+        <p>In-Debt-Pendent helps lenders track borrowers, see which payments are due, and review the history of each loan in one place.</p>
+      </section>
+    </div>
+  </main>
+
+  <div class="workspace" id="workspace" hidden>
+    <a class="skip-link" href="#workspace-content">Skip to content</a>
+    <aside class="sidebar">
+      <div class="sidebar-brand" data-brand></div>
+      <nav aria-label="Workspace" id="navigation">
+        <button type="button" data-page="dashboard">Dashboard</button>
+        <button type="button" data-page="borrowers">Borrowers</button>
+        <button type="button" data-page="payments">Payments</button>
+        <button type="button" data-page="calendar">Calendar</button>
+        <button type="button" data-page="analytics">Analytics</button>
+        <button type="button" data-page="archive">Archive</button>
+      </nav>
+      <div class="sidebar-footer">
+        <p class="sidebar-preview"><span aria-hidden="true"></span> In-Debt-Pendent Loan Ledger</p>
+        <button type="button" class="theme-toggle" data-theme-toggle>Light mode</button>
+        <button type="button" class="settings-shortcut" data-page="settings">Settings</button>
+      </div>
+    </aside>
+    <div class="workspace-body">
+      <header class="topbar">
+        <h1 id="page-title" tabindex="-1">Dashboard</h1>
+        <div class="topbar-controls">
+          <div class="topbar-date" id="today"></div>
+          <button type="button" class="button outline undo" id="undo" aria-disabled="true" aria-describedby="undo-help">Undo</button>
+          <span class="sr-only" id="undo-help">Undo reverses the latest saved action when it was a payment or archive.</span>
+        </div>
+      </header>
+      <main id="workspace-content" class="workspace-content" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <dialog class="dialog" id="dialog" aria-labelledby="dialog-title"></dialog>
+  <div id="notice" class="notice" role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
