@@ -1,7 +1,6 @@
 # In-Dept-Pendent: A Borrower Record and Payment Tracking System for Small Community Lenders
 
-# 2562 - CPE211L
-# UNIVERSITY OF MINDANAO
+### 2562 - CPE211L (UNIVERSITY OF MINDANAO)
 
 ## System Overview
 **In-Dept-Pendent** is a full-stack web application designed for small community lenders to record borrowers, generate installment schedules, track payments, calculate post-maturity overdue interest, and preserve financial records through a non-destructive Archive Folder.
