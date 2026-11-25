@@ -8,7 +8,7 @@ export function usernameError(username) {
   return "";
 }
 
-export async function authenticateDemo(username, password) {
+export async function authenticate(username, password) {
   if (usernameError(username)) return null;
   username = username.toLowerCase();
 
@@ -28,7 +28,7 @@ export async function authenticateDemo(username, password) {
   }
 }
 
-export async function registerDemo(username, password) {
+export async function register(username, password) {
   if (usernameError(username)) return null;
   username = username.toLowerCase();
 

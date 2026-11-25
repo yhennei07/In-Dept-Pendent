@@ -1,4 +1,4 @@
-import { DEMO_TODAY, dueDate } from "./ledger.mjs";
+import { TODAY, dueDate } from "./ledger.mjs";
 
 const monthFormat = new Intl.DateTimeFormat("en-PH", { month: "long", year: "numeric", timeZone: "UTC" });
 const dateFormat = new Intl.DateTimeFormat("en-PH", { dateStyle: "full", timeZone: "UTC" });
@@ -97,8 +97,8 @@ export function calendarGrid(focusDate, selectedDate, events, mode) {
       const date = start.slice(0, 8) + String(number).padStart(2, "0");
       const count = events.get(date)?.length ?? 0;
       const item = mode === "payments" ? "recorded payment" : "unpaid installment";
-      const overdue = mode === "dues" && date < DEMO_TODAY && count > 0;
-      const current = date === DEMO_TODAY ? ' aria-current="date"' : "";
+      const overdue = mode === "dues" && date < TODAY && count > 0;
+      const current = date === TODAY ? ' aria-current="date"' : "";
       cells += `<td aria-selected="${date === selectedDate}">
         <button type="button" class="calendar-day" id="calendar-day-${date}" data-calendar-date="${date}"
           tabindex="${date === focusDate ? 0 : -1}"${current}

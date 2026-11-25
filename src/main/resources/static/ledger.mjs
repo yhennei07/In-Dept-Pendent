@@ -1,4 +1,4 @@
-export const DEMO_TODAY = new Intl.DateTimeFormat("en-CA", {
+export const TODAY = new Intl.DateTimeFormat("en-CA", {
   timeZone: "Asia/Manila",
 }).format(new Date());
 
@@ -125,7 +125,7 @@ function calculateOverdueInterest(baseBalance, lastDueDate, fromDate, toDate) {
   return Math.round((baseBalance * OVERDUE_DAILY_RATE_BPS * days) / 10_000);
 }
 
-export function loanPosition(terms, paid, today = DEMO_TODAY, accruedPenalty = 0) {
+export function loanPosition(terms, paid, today = TODAY, accruedPenalty = 0) {
   const effectiveTotal = terms.total + accruedPenalty;
   const covered = paid >= effectiveTotal ? terms.count : Math.min(terms.count - 1, Math.floor(paid / terms.regular));
   const nextDue = covered === terms.count ? null : dueDate(terms.start, terms.frequency, covered);
@@ -168,8 +168,8 @@ export function initialLedger(includeSamples = true) {
   };
 }
 
-export function projectLoan(loan, today = DEMO_TODAY) {
-  if (typeof today !== "string") today = DEMO_TODAY;
+export function projectLoan(loan, today = TODAY) {
+  if (typeof today !== "string") today = TODAY;
   const terms = calculateTerms(loan);
   let paid = 0;
   let accruedPenalty = 0;
@@ -256,7 +256,7 @@ export function applyLedgerAction(ledger, action) {
       break;
     }
     case "archive":
-      loan.archived = DEMO_TODAY;
+      loan.archived = TODAY;
       break;
     case "restore":
       if (!loan.archived) throw new LedgerError("This borrower is already active.");

@@ -1,4 +1,4 @@
-import { DEMO_TODAY, money } from "./ledger.mjs";
+import { TODAY, money } from "./ledger.mjs";
 
 export const analyticsRanges = [3, 6, 12];
 
@@ -16,7 +16,7 @@ function monthIndex(date) {
   return Number(date.slice(0, 4)) * 12 + Number(date.slice(5, 7)) - 1;
 }
 
-export function summarizeAnalytics(records, monthCount, today = DEMO_TODAY) {
+export function summarizeAnalytics(records, monthCount, today = TODAY) {
   const monthlyTotals = new Map();
   let endMonth = monthIndex(today);
   let collected = 0;

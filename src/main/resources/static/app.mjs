@@ -1,9 +1,9 @@
 import {
-  DEMO_TODAY, FREQUENCIES, PAYMENT_METHODS, LedgerError, calculateTerms, dueDate, initialLedger, loanPosition, money,
+  TODAY, FREQUENCIES, PAYMENT_METHODS, LedgerError, calculateTerms, dueDate, initialLedger, loanPosition, money,
   parseHundredths, paymentMethodLabel, projectLoan, readableDate, validContact, validDate, validPaymentMethod,
 } from "./ledger.mjs";
-import { loadLedger, sampleLedgerKey, saveLedger } from "./demo-store.mjs";
-import { authenticateDemo, registerDemo, usernameError } from "./demo-auth.mjs";
+import { loadLedger, sampleLedgerKey, saveLedger } from "./store.mjs";
+import { authenticate, register, usernameError } from "./auth.mjs";
 import { analyticsMarkup, analyticsRanges } from "./analytics.mjs";
 import { calendarActivity, calendarDateLabel, calendarGrid, shiftCalendarDay, shiftCalendarMonth } from "./calendar.mjs";
 
@@ -131,8 +131,8 @@ let defaultSort = savedSort();
 let sort = defaultSort;
 let paymentFilter = "all";
 let analyticsRange = analyticsRanges[0];
-let calendarFocus = DEMO_TODAY;
-let calendarSelected = DEMO_TODAY;
+let calendarFocus = TODAY;
+let calendarSelected = TODAY;
 let calendarMode = "dues";
 let opener;
 let noticeTimer;
@@ -184,7 +184,7 @@ undo.addEventListener("click", () => {
   }
 });
 $("#today").innerHTML = icon("calendar") +
-  '<span class="today-text">Demo date<time datetime="' + DEMO_TODAY + '">' + readableDate(DEMO_TODAY) + "</time></span>";
+  '<span class="today-text">Current sDate<time datetime="' + TODAY + '">' + readableDate(TODAY) + "</time></span>";
 
 function setPasswordVisible(visible) {
   password.type = visible ? "text" : "password";
@@ -269,7 +269,7 @@ login.addEventListener("submit", async event => {
   }
   setAuthBusy(login, true, "Opening ledger…");
   try {
-    const key = await authenticateDemo(username, secret);
+    const key = await authenticate(username, secret);
     if (key) openWorkspace(key, await loadLedger(key), username);
     else {
       $("#login-error").textContent = "Incorrect username or password";
@@ -303,7 +303,7 @@ signup.addEventListener("submit", async event => {
 
   setAuthBusy(signup, true, "Creating account…");
   try {
-    const key = await registerDemo(username, secret);
+    const key = await register(username, secret);
     if (key) {
       openWorkspace(key, initialLedger(false), username);
       notify("Account created.");
@@ -331,8 +331,8 @@ function logout() {
   sort = defaultSort;
   paymentFilter = "all";
   analyticsRange = analyticsRanges[0];
-  calendarFocus = DEMO_TODAY;
-  calendarSelected = DEMO_TODAY;
+  calendarFocus = TODAY;
+  calendarSelected = TODAY;
   calendarMode = "dues";
   notice.textContent = "";
   window.scrollTo(0, 0);
@@ -513,7 +513,7 @@ function borrowerFile(record) {
     const amount = i + 1 === terms.count ? terms.final : terms.regular;
     const remaining = amount - Math.min(amount, Math.max(0, record.paid - i * terms.regular));
     const date = dueDate(terms.start, terms.frequency, i);
-    const state = remaining === 0 ? "Paid" : remaining < amount ? "Part paid" : date < DEMO_TODAY ? "Overdue" : date === DEMO_TODAY ? "Due today" : "Upcoming";
+    const state = remaining === 0 ? "Paid" : remaining < amount ? "Part paid" : date < TODAY ? "Overdue" : date === TODAY ? "Due today" : "Upcoming";
     installments.push(row([cell(readableDate(date)), cell(state), cell(money(amount), "numeric"), cell(money(remaining), "numeric emphasis")]));
   }
   const facts = [
@@ -635,7 +635,7 @@ function calendarAgenda(entries) {
   const payments = calendarMode === "payments";
   const total = entries.reduce((sum, entry) => sum + entry.amount, 0);
   const label = payments ? "Total recorded" : "Total due";
-  const dayStatus = calendarSelected < DEMO_TODAY ? "Overdue" : calendarSelected === DEMO_TODAY ? "Due today" : "Upcoming";
+  const dayStatus = calendarSelected < TODAY ? "Overdue" : calendarSelected === TODAY ? "Due today" : "Upcoming";
   const installmentStatus = dayStatus === "Overdue" ? status(dayStatus) : '<span class="status">' + dayStatus + "</span>";
   const items = entries.map(({ record, amount, method }) => `
     <li class="calendar-agenda-entry">
@@ -691,7 +691,7 @@ function showCalendar() {
   });
   for (const [id, step] of [["prev", -1], ["next", 1], ["today", 0]]) {
     $("#calendar-" + id, content).addEventListener("click", () => {
-      calendarFocus = step ? shiftCalendarMonth(calendarFocus, step) : DEMO_TODAY;
+      calendarFocus = step ? shiftCalendarMonth(calendarFocus, step) : TODAY;
       calendarSelected = calendarFocus;
       refreshPage();
     });
@@ -959,7 +959,7 @@ function paymentDialog(record) {
       .map(([label, value]) => "<div><dt>" + label + "</dt><dd>" + money(value) + "</dd></div>").join("") +
     '</dl><div class="form-grid">' +
     formField("amount", "Amount Paid (₱)", '<input name="amount" id="amount" inputmode="decimal" placeholder="0.00" aria-describedby="amount-error payment-help" required>') +
-    formField("payment-date", "Payment Date", '<input name="payment-date" id="payment-date" type="date" value="' + DEMO_TODAY +
+    formField("payment-date", "Payment Date", '<input name="payment-date" id="payment-date" type="date" value="' + TODAY +
       '" aria-describedby="payment-date-error" required>') +
     '<div class="payment-method-field">' + formField("payment-method", "Payment Method",
       '<select name="payment-method" id="payment-method" aria-describedby="payment-method-error" required>' +
